@@ -3,7 +3,7 @@
     "default": "overall-project-b04ff"
   },
   "targets": {
-    "YOUR_FIREBASE_PROJECT_ID": {
+    "overall-project-b04ff": {
       "hosting": {
         "portfolio": [
           "sasikumar-k-dev"
