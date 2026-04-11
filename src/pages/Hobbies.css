@@ -1,52 +1,233 @@
-.hobbies-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+.hobbies-intro {
+  color: #64748b;
+  font-size: 1.05rem;
+  max-width: 500px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
 }
 
-.hobby-card {
-  background: var(--card);
+.hobbies-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+/* ── Feature card base ── */
+.hobby-feature-card {
+  border-radius: 24px;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  padding: 2rem;
+  position: relative;
   overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hobby-feature-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Badminton theme */
+.badminton-card {
+  background: linear-gradient(145deg, #0f0f1a, #130d1f);
+  border-color: rgba(124, 58, 237, 0.25);
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.06);
+}
+
+.badminton-card:hover {
+  box-shadow: 0 12px 50px rgba(124, 58, 237, 0.2);
+  border-color: rgba(124, 58, 237, 0.5);
+}
+
+/* Chess theme */
+.chess-card {
+  background: linear-gradient(145deg, #0a0f1a, #0d1520);
+  border-color: rgba(6, 182, 212, 0.25);
+  box-shadow: 0 0 40px rgba(6, 182, 212, 0.06);
+}
+
+.chess-card:hover {
+  box-shadow: 0 12px 50px rgba(6, 182, 212, 0.2);
+  border-color: rgba(6, 182, 212, 0.5);
+}
+
+/* Big background emoji */
+.hfc-bg-text {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 8rem;
+  opacity: 0.04;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.hfc-content { position: relative; z-index: 1; }
+
+.hfc-top {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.hfc-emoji { font-size: 2.2rem; }
+
+.hfc-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  color: #a78bfa;
+  letter-spacing: 1px;
+}
+
+.chess-tag {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: rgba(6, 182, 212, 0.3);
+  color: #06b6d4;
+}
+
+.hobby-feature-card h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+}
+
+.badminton-card h2 { color: #e2e8f0; }
+.chess-card h2 { color: #e2e8f0; }
+
+.hfc-desc {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+/* Stats row */
+.hfc-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.hfc-stat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 12px;
+  padding: 10px 14px;
+  flex: 1;
+  min-width: 140px;
   transition: all 0.3s;
 }
 
-.hobby-card:hover { border-color: rgba(124,58,237,0.4); }
+.hfc-stat svg { color: #7c3aed; font-size: 1.1rem; flex-shrink: 0; }
 
-.hobby-img-wrap {
-  position: relative;
-  aspect-ratio: 16/10;
-  overflow: hidden;
+.chess-stat {
+  background: rgba(6, 182, 212, 0.08);
+  border-color: rgba(6, 182, 212, 0.2);
 }
 
-.hobby-img-wrap img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s;
+.chess-stat svg, .chess-stat span { color: #06b6d4; }
+
+.hfc-stat-val {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #e2e8f0;
 }
 
-.hobby-card:hover .hobby-img-wrap img { transform: scale(1.08); }
+.hfc-stat-label {
+  display: block;
+  font-size: 0.72rem;
+  color: #64748b;
+  font-family: 'JetBrains Mono', monospace;
+}
 
-.hobby-emoji {
-  position: absolute;
-  bottom: 12px; left: 12px;
-  font-size: 2rem;
-  background: rgba(10,10,15,0.8);
-  backdrop-filter: blur(8px);
-  width: 52px; height: 52px;
+/* Trait chips */
+.hfc-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.hfc-trait {
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  background: rgba(124, 58, 237, 0.1);
+  border: 1px solid rgba(124, 58, 237, 0.25);
+  color: #a78bfa;
+}
+
+.chess-trait {
+  background: rgba(6, 182, 212, 0.08);
+  border-color: rgba(6, 182, 212, 0.25);
+  color: #06b6d4;
+}
+
+/* Chess profile button */
+.chess-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
   border-radius: 12px;
+  background: linear-gradient(135deg, rgba(6,182,212,0.15), rgba(6,182,212,0.05));
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  color: #06b6d4;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.chess-profile-btn:hover {
+  background: rgba(6, 182, 212, 0.2);
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.25);
+}
+
+/* Quote */
+.hobby-quote {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(124,58,237,0.3);
+  gap: 1rem;
+  padding: 2rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  text-align: center;
 }
 
-.hobby-body { padding: 1.2rem; }
-.hobby-body h3 { font-size: 1rem; margin-bottom: 0.5rem; }
-.hobby-body p { color: #64748b; font-size: 0.85rem; line-height: 1.6; margin-bottom: 0.75rem; }
-.hobby-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.hobby-quote p {
+  color: #94a3b8;
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.6;
+  max-width: 500px;
+}
 
-@media (max-width: 600px) {
-  .hobbies-grid { grid-template-columns: 1fr; }
+.quote-mark {
+  font-size: 2.5rem;
+  color: #7c3aed;
+  opacity: 0.5;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .hobbies-showcase { grid-template-columns: 1fr; }
+  .hobby-feature-card h2 { font-size: 1.6rem; }
+  .hobby-quote { flex-direction: column; gap: 0.5rem; }
 }

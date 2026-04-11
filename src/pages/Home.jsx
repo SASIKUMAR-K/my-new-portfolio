@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import profileImg from '../assets/profile.jpg';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowRight, FiGithub, FiLinkedin, FiTwitter, FiDownload } from 'react-icons/fi';
+import { FiArrowRight, FiGithub, FiLinkedin, FiDownload } from 'react-icons/fi';
+import { SiLeetcode } from 'react-icons/si';
 import PageWrapper from '../components/PageWrapper';
 import './Home.css';
 
-const roles = ['Full Stack Developer', 'UI/UX Enthusiast', 'Open Source Contributor', 'Problem Solver'];
+const roles = ['Full Stack Developer', 'Problem Solver', 'Cloud Developer'];
 
 function TypeWriter({ words }) {
   const [index, setIndex] = useState(0);
@@ -93,7 +95,7 @@ export default function Home() {
           </motion.div>
 
           <motion.h1 className="home-name" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            Hi, I'm <span className="gradient-text">Your Name</span>
+            Hi, I'm <span className="gradient-text">Sasi Kumar</span>
           </motion.h1>
 
           <motion.div className="home-role" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
@@ -109,13 +111,17 @@ export default function Home() {
             <Link to="/projects" className="btn-primary">
               View Projects <FiArrowRight />
             </Link>
-            <a href="#" className="btn-secondary">
+            <a href="/resume.pdf" target="_blank" rel="noreferrer" className="btn-secondary">
               <FiDownload /> Resume
             </a>
           </motion.div>
 
           <motion.div className="home-socials" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
-            {[{ icon: <FiGithub />, href: '#' }, { icon: <FiLinkedin />, href: '#' }, { icon: <FiTwitter />, href: '#' }].map((s, i) => (
+            {[
+              { icon: <FiGithub />, href: 'https://github.com/SASIKUMAR-K' },
+              { icon: <FiLinkedin />, href: 'https://www.linkedin.com/in/mr-sasikumar-k/' },
+              { icon: <SiLeetcode />, href: 'https://leetcode.com/u/SASIKUMAR-K/' },
+            ].map((s, i) => (
               <motion.a key={i} href={s.href} target="_blank" rel="noreferrer" whileHover={{ y: -4, scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 {s.icon}
               </motion.a>
@@ -126,24 +132,13 @@ export default function Home() {
         <motion.div className="home-visual" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4, duration: 0.8 }}>
           <div className="avatar-ring">
             <div className="avatar-ring-2">
-              <img src="https://placehold.co/300x300/7c3aed/ffffff?text=YN" alt="avatar" className="avatar-img" />
+              <img src={profileImg} alt="avatar" className="avatar-img" />
             </div>
           </div>
-          <div className="floating-card card-1 mono">
-            <span className="card-dot green" /> Open to work
-          </div>
-          <div className="floating-card card-2 mono">
-            <span>⚡</span> 50+ Projects
-          </div>
-          <div className="floating-card card-3 mono">
-            <span>🏆</span> 10+ Awards
-          </div>
+
         </motion.div>
 
-        <motion.div className="scroll-hint mono" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}>
-          <div className="scroll-line" />
-          scroll
-        </motion.div>
+
       </div>
     </PageWrapper>
   );

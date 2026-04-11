@@ -7,36 +7,39 @@ const categories = [
   {
     name: 'Frontend',
     skills: [
-      { name: 'React', level: 92 }, { name: 'TypeScript', level: 85 },
-      { name: 'Next.js', level: 80 }, { name: 'Tailwind CSS', level: 90 },
-      { name: 'Framer Motion', level: 75 },
+      { name: 'HTML & CSS', level: 90 },
+      { name: 'JavaScript', level: 75 },
+      { name: 'React', level: 70 },
+      { name: 'Bootstrap', level: 70 },
     ],
   },
   {
     name: 'Backend',
     skills: [
-      { name: 'Node.js', level: 88 }, { name: 'Python', level: 82 },
-      { name: 'Express', level: 85 }, { name: 'GraphQL', level: 72 },
-      { name: 'REST APIs', level: 90 },
+      { name: 'FastAPI', level: 80 },
+      { name: 'Spring Boot', level: 50 },
+      { name: 'Node.js', level: 25 },
     ],
   },
   {
     name: 'Database',
     skills: [
-      { name: 'MongoDB', level: 85 }, { name: 'PostgreSQL', level: 78 },
-      { name: 'Redis', level: 70 }, { name: 'MySQL', level: 80 },
+      { name: 'MySQL', level: 85 },
+      { name: 'MongoDB', level: 50 },
     ],
   },
   {
     name: 'DevOps & Cloud',
     skills: [
-      { name: 'AWS', level: 75 }, { name: 'Docker', level: 80 },
-      { name: 'CI/CD', level: 72 }, { name: 'Linux', level: 78 },
+      { name: 'AWS', level: 50 },
+      { name: 'Docker', level: 20 },
+      { name: 'CI/CD', level: 20 },
+      { name: 'Firebase', level: 60 },
     ],
   },
 ];
 
-const tools = ['Git', 'VS Code', 'Figma', 'Postman', 'Jira', 'Webpack', 'Vite', 'Jest', 'Cypress', 'Storybook'];
+const tools = ['Git', 'GitHub', 'VS Code', 'Postman'];
 
 function SkillBar({ name, level, delay }) {
   return (

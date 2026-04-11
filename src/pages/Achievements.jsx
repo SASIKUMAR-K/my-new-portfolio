@@ -1,44 +1,58 @@
 import { motion } from 'framer-motion';
-import { FiAward, FiStar, FiTrendingUp } from 'react-icons/fi';
+import { FiAward, FiExternalLink } from 'react-icons/fi';
 import PageWrapper from '../components/PageWrapper';
 import './Achievements.css';
 
 const achievements = [
   {
-    title: 'National Hackathon Winner',
-    org: 'HackIndia 2023',
-    desc: 'Won 1st place among 500+ teams for building an AI-powered accessibility tool for visually impaired users.',
-    icon: '🏆', color: '#f59e0b', year: '2023',
-  },
-  {
-    title: 'Google Summer of Code',
-    org: 'Google / Open Source',
-    desc: 'Selected as a GSoC contributor to work on a major open-source project with 10k+ GitHub stars.',
-    icon: '🌟', color: '#4285f4', year: '2023',
-  },
-  {
-    title: 'Best Paper Award',
-    org: 'IEEE Conference 2022',
-    desc: 'Research paper on "Optimizing Microservices Communication" recognized as best paper in the systems track.',
-    icon: '📄', color: '#7c3aed', year: '2022',
-  },
-  {
-    title: 'Top 1% on LeetCode',
+    title: 'LeetCode 600+ Problems Solved',
     org: 'LeetCode',
-    desc: 'Solved 800+ problems, ranked in top 1% globally with a contest rating of 2100+.',
-    icon: '💻', color: '#ffa116', year: '2022',
+    desc: 'Solved 600+ problems across various difficulty levels — consistently sharpening problem-solving and DSA skills.',
+    icon: '💻',
+    color: '#ffa116',
+    year: 'Ongoing',
+    link: 'https://leetcode.com/u/SASIKUMAR-K/',
+    linkLabel: 'View Profile',
   },
   {
-    title: 'Startup Incubation Grant',
-    org: 'University Innovation Cell',
-    desc: 'Received ₹5L seed funding for a SaaS product idea that reached 200+ beta users.',
-    icon: '🚀', color: '#10b981', year: '2023',
+    title: 'Smt. Manonmani & Shri Rajagopan Memorial Award',
+    org: 'Maatram Foundation',
+    desc: 'Awarded for outstanding contribution and volunteering service to Maatram Foundation.',
+    icon: '🏅',
+    color: '#f59e0b',
+    year: '16 Jan 2024',
+    link: null,
+    linkLabel: 'Certificate coming soon',
   },
   {
-    title: 'Open Source Contributor',
-    org: 'GitHub',
-    desc: '200+ contributions to popular open-source projects including React ecosystem libraries.',
-    icon: '🐙', color: '#e2e8f0', year: '2021–Present',
+    title: 'ILAM Thalir Award',
+    org: 'Maatram Alumni Association',
+    desc: 'Recognized by the Maatram Alumni Association for dedicated volunteering and social impact.',
+    icon: '🌟',
+    color: '#a78bfa',
+    year: '19 Jan 2025',
+    link: null,
+    linkLabel: 'Certificate coming soon',
+  },
+  {
+    title: 'NPTEL Domain Scholar',
+    org: 'NPTEL',
+    desc: 'Earned the NPTEL Domain Scholar title by successfully completing 7 NPTEL courses in a focused domain.',
+    icon: '🎓',
+    color: '#06b6d4',
+    year: '01 Nov 2024',
+    link: null,
+    linkLabel: 'Certificate coming soon',
+  },
+  {
+    title: 'NPTEL Star',
+    org: 'NPTEL',
+    desc: 'Awarded the NPTEL Star recognition for consistent performance and completion of multiple NPTEL courses.',
+    icon: '⭐',
+    color: '#10b981',
+    year: '01 Nov 2024',
+    link: null,
+    linkLabel: 'Certificate coming soon',
   },
 ];
 
@@ -51,7 +65,7 @@ export default function Achievements() {
           Achievements & <span className="gradient-text">Awards</span>
         </motion.h1>
 
-        <div className="achievements-grid">
+        <div className="achievements-list">
           {achievements.map((a, i) => (
             <motion.div
               key={i}
@@ -59,14 +73,28 @@ export default function Achievements() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              whileHover={{ y: -6, borderColor: a.color + '66' }}
+              whileHover={{ x: 6 }}
               style={{ '--card-color': a.color }}
             >
-              <div className="achievement-icon">{a.icon}</div>
-              <div className="achievement-year mono">{a.year}</div>
-              <h3>{a.title}</h3>
-              <p className="achievement-org"><FiAward style={{ color: a.color }} /> {a.org}</p>
-              <p className="achievement-desc">{a.desc}</p>
+              <div className="ach-accent" style={{ background: a.color }} />
+              <div className="ach-icon-wrap" style={{ background: a.color + '18', border: `1px solid ${a.color}44` }}>
+                <span>{a.icon}</span>
+              </div>
+              <div className="ach-content">
+                <div className="ach-top">
+                  <h3>{a.title}</h3>
+                  <span className="ach-year mono">{a.year}</span>
+                </div>
+                <p className="achievement-org"><FiAward style={{ color: a.color }} /> {a.org}</p>
+                <p className="achievement-desc">{a.desc}</p>
+                {a.link ? (
+                  <a href={a.link} target="_blank" rel="noreferrer" className="ach-link" style={{ color: a.color, borderColor: a.color + '44' }}>
+                    <FiExternalLink /> {a.linkLabel}
+                  </a>
+                ) : (
+                  <span className="ach-soon">🔗 {a.linkLabel}</span>
+                )}
+              </div>
               <div className="achievement-glow" style={{ background: a.color }} />
             </motion.div>
           ))}
