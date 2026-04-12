@@ -37,7 +37,21 @@ const education = [
 ];
 
 const certifications = [
-  { name: 'Add your certifications', issuer: 'Issuer / Platform', year: '2024', color: '#7c3aed' },
+  {
+    name: 'NPTEL Domain Scholar & Star',
+    issuer: 'NPTEL',
+    year: 'Nov 2024',
+    color: '#06b6d4',
+    link: 'https://linkshort.web.app/c',
+    linkLabel: 'View All Certificates ↗',
+    courses: [
+      { name: 'DSA Using Python', period: 'Jan – Mar 2023' },
+      { name: 'DBMS', period: 'Jun – Dec 2023' },
+      { name: 'Java', period: 'Jun – Dec 2023' },
+      { name: 'Data Science', period: 'Jan – Mar 2023' },
+      { name: 'Cloud Computing', period: 'Jan – Apr 2023' },
+    ],
+  },
 ];
 
 export default function Education() {
@@ -107,6 +121,22 @@ export default function Education() {
                     </div>
                     <span className="tl-period mono" style={{ color: c.color }}>{c.year}</span>
                   </div>
+                  {c.courses && (
+                    <div className="cert-courses">
+                      {c.courses.map((course, j) => (
+                        <div key={j} className="cert-course-row">
+                          <span className="cert-course-dot" style={{ background: c.color }} />
+                          <span className="cert-course-name">{course.name}</span>
+                          <span className="cert-course-period mono">{course.period}</span>
+                        </div>
+                      ))}
+                      {c.link && (
+                        <a href={c.link} target="_blank" rel="noreferrer" className="cert-all-link" style={{ borderColor: c.color + '44', color: c.color }}>
+                          {c.linkLabel}
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </motion.div>
               </motion.div>
             ))}

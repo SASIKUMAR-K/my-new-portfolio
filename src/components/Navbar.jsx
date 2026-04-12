@@ -22,63 +22,96 @@ export default function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    const fn = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
   }, []);
 
   useEffect(() => setOpen(false), [location]);
 
   return (
-    <motion.nav
-      className={`navbar ${scrolled ? 'scrolled' : ''}`}
-      initial={{ y: -80 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-    >
-      <NavLink to="/" className="nav-logo">
-        <FiCode />
-        <span className="mono">dev.portfolio</span>
-      </NavLink>
+    <>
+      <motion.nav
+        className={`navbar ${scrolled ? 'scrolled' : ''}`}
+        initial={{ y: -70, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {/* Logo */}
+        <NavLink to="/" className="nav-logo">
+          <FiCode className="logo-icon" />
+          <span className="logo-text mono">sasikumar<span className="logo-accent">.dev</span></span>
+        </NavLink>
 
-      <ul className="nav-links">
-        {links.map(({ to, label }) => (
-          <li key={to}>
-            <NavLink to={to} className={({ isActive }) => isActive ? 'active' : ''}>
-              {label}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
+        {/* Desktop links */}
+        <ul className="nav-links">
+          {links.map(({ to, label }) => (
+            <li key={to}>
+              <NavLink to={to} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+                {label}
+                <span className="link-underline" />
+              </NavLink>
+            </li>
+          ))}
+        </ul>
 
-      <button className="hamburger" onClick={() => setOpen(!open)}>
-        {open ? <FiX /> : <FiMenu />}
-      </button>
+        {/* Hamburger */}
+        <button className="hamburger" onClick={() => setOpen(o => !o)} aria-label="menu">
+          <AnimatePresence mode="wait">
+            {open
+              ? <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}><FiX /></motion.span>
+              : <motion.span key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.15 }}><FiMenu /></motion.span>
+            }
+          </AnimatePresence>
+        </button>
+      </motion.nav>
 
+      {/* Mobile drawer */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            className="mobile-menu"
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          >
-            {links.map(({ to, label }, i) => (
-              <motion.div
-                key={to}
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-              >
-                <NavLink to={to} className={({ isActive }) => isActive ? 'active' : ''}>
-                  <span className="mono link-num">0{i + 1}.</span> {label}
-                </NavLink>
-              </motion.div>
-            ))}
-          </motion.div>
+          <>
+            <motion.div
+              className="mob-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+            />
+            <motion.div
+              className="mob-drawer"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', stiffness: 320, damping: 32 }}
+            >
+              <div className="mob-top">
+                <span className="logo-text mono">sasikumar<span className="logo-accent">.dev</span></span>
+                <button className="mob-close" onClick={() => setOpen(false)}><FiX /></button>
+              </div>
+
+              <nav className="mob-nav">
+                {links.map(({ to, label }, i) => (
+                  <motion.div
+                    key={to}
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04 }}
+                  >
+                    <NavLink to={to} className={({ isActive }) => isActive ? 'mob-link active' : 'mob-link'}>
+                      <span className="mob-num mono">0{i + 1}</span>
+                      {label}
+                    </NavLink>
+                  </motion.div>
+                ))}
+              </nav>
+
+              <a href="/resume.pdf" target="_blank" rel="noreferrer" className="mob-resume">
+                Download Resume
+              </a>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 }
