@@ -1,242 +1,184 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiCalendar, FiUsers, FiGlobe, FiInstagram, FiDownload, FiChevronDown, FiHeart } from 'react-icons/fi';
+import { FiCalendar, FiGlobe, FiInstagram, FiDownload, FiChevronDown, FiHeart, FiArrowRight } from 'react-icons/fi';
 import PageWrapper from '../components/PageWrapper';
 import './Leadership.css';
 
 const roles = [
   {
     id: 1,
-    title: 'Vice President & Technical Lead',
-    org: 'Science Club — Sathyabama Institute of Science and Technology',
-    period: 'Feb 2023 – Aug 2024',
-    subRoles: ['Technical Lead (Feb 2023 – Feb 2024)', 'Vice President (Feb 2024 – Aug 2024)'],
-    color: '#7c3aed',
     emoji: '🔬',
+    title: 'Vice President & Technical Lead',
+    org: 'Science Club — SIST',
+    period: 'Feb 2023 – Aug 2024',
+    color: '#7c3aed',
+    tags: ['Technical Lead', 'Vice President'],
     desc: 'Led the technical wing of the Science Club and later served as Vice President. Transformed the club by introducing technical initiatives that no other club had done before.',
     highlights: [
-      'Built the official Science Club website — the first club website in the college',
+      'Built the first-ever club website in the college',
       'Designed a brand new logo for the Science Club',
-      'Added technical dimensions to a traditionally science-focused club',
       'Conducted "School on Wheels" — teaching science to school students',
       'Organized multiple tech & science events as Vice President',
     ],
     links: [
-      { label: 'Club Instagram', icon: <FiInstagram />, href: 'https://www.instagram.com/science_club_sist/' },
-      { label: 'Club Website (Archived)', icon: <FiGlobe />, href: 'https://sistscienceclub.web.app/' },
+      { label: 'Instagram', icon: <FiInstagram />, href: 'https://www.instagram.com/science_club_sist/' },
+      { label: 'Website', icon: <FiGlobe />, href: 'https://sistscienceclub.web.app/' },
     ],
-    badge: 'First Club Website in College',
   },
   {
     id: 2,
-    title: 'EEE Coordinator',
-    org: 'CDC Club (Community Development Club) — SIST',
-    period: 'June 2023 – May 2024',
-    subRoles: ['EEE Department Coordinator'],
-    color: '#10b981',
     emoji: '🌱',
+    title: 'EEE Coordinator',
+    org: 'CDC Club — SIST',
+    period: 'June 2023 – May 2024',
+    color: '#10b981',
+    tags: ['EEE Dept. Coordinator'],
     desc: 'Represented the EEE department in the Community Development Club, focused on social impact and student empowerment.',
     highlights: [
-      'Conducted "Fearless Echoes" — an event to help students overcome stage fear',
+      'Conducted "Fearless Echoes" — an event to overcome stage fear',
       'Personally overcame stage fear through this initiative',
-      'Provided active support across multiple club events',
-      'Bridged the gap between technical students and community service',
+      'Supported multiple club events across the year',
     ],
     links: [
-      { label: 'Club Instagram', icon: <FiInstagram />, href: 'https://www.instagram.com/cdc_sist2025/' },
+      { label: 'Instagram', icon: <FiInstagram />, href: 'https://www.instagram.com/cdc_sist2025/' },
       { label: 'Position Post', icon: <FiInstagram />, href: 'https://www.instagram.com/p/CuCQld8yNgC/?img_index=8' },
     ],
-    badge: 'Community Impact',
   },
   {
     id: 3,
+    emoji: '💻',
     title: 'Technical Co-Lead',
     org: 'ACM Student Chapter — Sathyabama',
     period: 'Jan 2024 – Dec 2024',
-    subRoles: ['Technical Co-Lead'],
     color: '#06b6d4',
-    emoji: '💻',
-    desc: "ACM (Association for Computing Machinery) is the world's largest computing society. As Technical Co-Lead, I drove the technical vision of the chapter and led major events.",
+    tags: ['Technical Co-Lead'],
+    desc: "ACM is the world's largest computing society. As Technical Co-Lead, I drove the technical vision and led major events including the annual symposium.",
     highlights: [
-      'Built the official website for Horizon 2024 — the annual symposium',
-      'Conducted "Code Rush" — a competitive coding event at Horizon 2024',
+      'Built the official Horizon 2024 symposium website',
+      'Conducted "Code Rush" — a competitive coding event',
       'Led the technical team for all chapter activities',
-      'Organized Horizon 2024 symposium end-to-end',
     ],
     links: [
       { label: 'ACM Instagram', icon: <FiInstagram />, href: 'https://www.instagram.com/acmsathyabama/' },
       { label: 'Position Post', icon: <FiInstagram />, href: 'https://www.instagram.com/p/C2R3hR2v5fe/?img_index=3' },
-      { label: 'Horizon 2024 Website', icon: <FiGlobe />, href: 'https://horizon2024.web.app/' },
+      { label: 'Horizon 2024', icon: <FiGlobe />, href: 'https://horizon2024.web.app/' },
     ],
-    badge: 'Built Horizon 2024 Website',
   },
 ];
 
 const volunteering = [
   {
-    id: 'v1',
-    icon: '🌟',
-    title: 'Main SPOC — Sathyabama',
-    org: 'Maatram Foundation',
-    period: '2022 – 2025',
-    color: '#f59e0b',
-    desc: 'Served as the Main Student Point of Contact (SPOC) for Sathyabama — the bridge between students and Maatram Foundation, an NGO providing free education to underprivileged students with strong academic records.',
-    highlights: [
-      'Managed year-wise individual SPOCs for all 4 batches (Year 1–4)',
-      'Coordinated communication between the foundation and student beneficiaries',
-    ],
+    id: 'v1', icon: '🌟', title: 'Main SPOC — Sathyabama', org: 'Maatram Foundation',
+    period: '2022 – 2025', color: '#f59e0b',
+    desc: 'Served as the Main Student Point of Contact — the bridge between students and Maatram Foundation.',
+    highlights: ['Managed SPOCs for all 4 year batches', 'Coordinated communication between foundation and students'],
     link: null,
   },
   {
-    id: 'v2',
-    icon: '🏠',
-    title: 'Physical Verification Volunteer',
-    org: 'Maatram Foundation',
-    period: '2023, 2024, 2025',
-    color: '#f59e0b',
-    desc: 'Visited homes of scholarship applicants to verify their background and living conditions — ensuring the right students receive support.',
-    highlights: [
-      'Home visits to verify student eligibility for free education',
-      'Ensured transparency and authenticity in the admission process',
-      'Participated across 3 consecutive years (2023, 2024, 2025)',
-    ],
+    id: 'v2', icon: '🏠', title: 'Physical Verification Volunteer', org: 'Maatram Foundation',
+    period: '2023, 2024, 2025', color: '#f59e0b',
+    desc: 'Visited homes of scholarship applicants to verify background and living conditions.',
+    highlights: ['Home visits for student eligibility verification', 'Participated across 3 consecutive years'],
     link: null,
   },
   {
-    id: 'v3',
-    icon: '🎤',
-    title: 'Admission Volunteer',
-    org: 'Maatram Foundation',
-    period: '2023 – 2025',
-    color: '#f59e0b',
+    id: 'v3', icon: '🎤', title: 'Admission Volunteer', org: 'Maatram Foundation',
+    period: '2023 – 2025', color: '#f59e0b',
     desc: 'Worked in the technical team during the admission process.',
     highlights: [],
     link: null,
   },
   {
-    id: 'v4',
-    icon: '📚',
-    title: 'Karpoom Karpipoom — Core Team',
-    org: 'Karpoom Karpipoom — Maatram Foundation',
-    period: '2022 – Present',
-    color: '#a78bfa',
-    desc: 'Karpoom Karpipoom provides free tuition to 12th-grade students from schools lacking qualified teachers. Started as a Physics tutor and grew into the Core Team.',
+    id: 'v4', icon: '📚', title: 'Karpoom Karpipoom — Core Team', org: 'Maatram Foundation',
+    period: '2022 – Present', color: '#a78bfa',
+    desc: 'Free tuition initiative for 12th-grade students. Started as a Physics tutor and grew into the Core Team.',
     highlights: [
-      'Taught Physics to underprivileged 12th-grade students (2022–2024)',
-      'Promoted to Executive Core Team for outstanding contribution',
-      'Now part of the Core Team driving the initiative forward',
-      'Automated the entire admission process for Karpoom Karpipoom in 2025',
-      'Built a dedicated website for the program (launching soon)',
+      'Taught Physics to underprivileged 12th-grade students',
+      'Promoted to Executive Core Team',
+      'Automated the entire admission process in 2025',
+      'Building a dedicated website (launching soon)',
     ],
-    link: { label: 'Website — Check back soon', href: null },
+    link: { label: 'Website coming soon', href: null },
   },
   {
-    id: 'v5',
-    icon: '🏫',
-    title: 'School Visit — Career Guidance',
-    org: 'Maatram Foundation',
-    period: '2023 – 2025',
-    color: '#f59e0b',
-    desc: 'Visited schools to deliver career guidance and awareness sessions — helping students understand opportunities in engineering and technology.',
-    highlights: [
-      'Delivered career awareness sessions at multiple schools',
-      'Guided students on engineering streams and future opportunities',
-      'Inspired underprivileged students to aim higher',
-    ],
+    id: 'v5', icon: '🏫', title: 'School Visit — Career Guidance', org: 'Maatram Foundation',
+    period: '2023 – 2025', color: '#f59e0b',
+    desc: 'Visited schools to deliver career guidance sessions for students.',
+    highlights: ['Career awareness sessions at multiple schools', 'Guided students on engineering opportunities'],
     link: null,
   },
   {
-    id: 'v6',
-    icon: '💡',
-    title: 'Technical Tutor',
-    org: 'Maatram Foundation',
-    period: '2023 – Present',
-    color: '#06b6d4',
-    desc: 'Mentored students in technical subjects — helping them build a strong foundation in programming and engineering concepts.',
-    highlights: [
-      'Tutored students in programming fundamentals and technical subjects',
-      'Bridged the gap between classroom learning and practical skills',
-      'Helped students prepare for technical interviews and placements',
-    ],
+    id: 'v6', icon: '💡', title: 'Technical Tutor', org: 'Maatram Foundation',
+    period: '2023 – Present', color: '#06b6d4',
+    desc: 'Mentored students in programming and engineering concepts.',
+    highlights: ['Tutored in programming fundamentals', 'Helped students prepare for technical interviews'],
     link: null,
   },
 ];
 
-const collegeJourney = [
-  { year: '2021', text: 'Joined Sathyabama — started as a participant in department events' },
-  { year: '2022', text: 'Actively participated in technical fests, joined Maatram Foundation as SPOC' },
-  { year: '2023', text: 'Stepped up as organizer — Science Club, CDC, Maatram volunteering' },
-  { year: '2024', text: 'Led as VP (Science Club) & Technical Co-Lead (ACM) simultaneously' },
+const journey = [
+  { year: '2021', label: 'Joined SIST', text: 'Started as a participant in department events', color: '#7c3aed' },
+  { year: '2022', label: 'First Step Up', text: 'Joined Maatram Foundation as SPOC', color: '#06b6d4' },
+  { year: '2023', label: 'Organizer', text: 'Science Club, CDC & active Maatram volunteering', color: '#10b981' },
+  { year: '2024', label: 'Leader', text: 'VP (Science Club) + Technical Co-Lead (ACM)', color: '#f59e0b' },
 ];
 
 function RoleCard({ role, index }) {
   const [open, setOpen] = useState(false);
   return (
     <motion.div
-      className="role-card"
-      initial={{ opacity: 0, y: 40 }}
+      className="lc-card"
+      initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.15 }}
-      style={{ '--rc': role.color }}
+      transition={{ delay: index * 0.12 }}
+      style={{ '--lc': role.color }}
     >
-      <div className="rc-accent" style={{ background: role.color }} />
-      <div className="rc-header" onClick={() => setOpen(!open)}>
-        <div className="rc-left">
-          <div className="rc-emoji-wrap" style={{ background: role.color + '18', border: `1px solid ${role.color}44` }}>
-            <span>{role.emoji}</span>
-          </div>
-          <div>
-            <div className="rc-subroles">
-              {role.subRoles.map((s, i) => (
-                <span key={i} className="rc-subrole mono" style={{ color: role.color }}>{s}</span>
-              ))}
-            </div>
-            <h3>{role.title}</h3>
-            <p className="rc-org"><FiUsers style={{ color: role.color }} /> {role.org}</p>
-            <p className="rc-period mono"><FiCalendar /> {role.period}</p>
-          </div>
+      <div className="lc-stripe" style={{ background: role.color }} />
+
+      <div className="lc-top" onClick={() => setOpen(!open)}>
+        <div className="lc-icon" style={{ background: role.color + '18', border: `1px solid ${role.color}33` }}>
+          {role.emoji}
         </div>
-        <div className="rc-right">
-          <span className="rc-badge" style={{ background: role.color + '18', border: `1px solid ${role.color}44`, color: role.color }}>
-            {role.badge}
-          </span>
-          <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.3 }}>
-            <FiChevronDown className="rc-chevron" />
-          </motion.div>
+
+        <div className="lc-main">
+          <div className="lc-tags">
+            {role.tags.map((t, i) => (
+              <span key={i} className="lc-tag mono" style={{ color: role.color, borderColor: role.color + '44', background: role.color + '12' }}>{t}</span>
+            ))}
+          </div>
+          <h3 className="lc-title">{role.title}</h3>
+          <p className="lc-org">{role.org}</p>
+          <span className="lc-period mono"><FiCalendar /> {role.period}</span>
         </div>
+
+        <motion.div className="lc-chevron" animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
+          <FiChevronDown />
+        </motion.div>
       </div>
+
       <AnimatePresence>
         {open && (
           <motion.div
-            className="rc-body"
+            className="lc-body"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35 }}
+            transition={{ duration: 0.3 }}
           >
-            <p className="rc-desc">{role.desc}</p>
-            <h4 className="rc-highlights-title mono">// key_highlights</h4>
-            <ul className="rc-highlights">
+            <p className="lc-desc">{role.desc}</p>
+            <ul className="lc-list">
               {role.highlights.map((h, i) => (
-                <motion.li key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
-                  <span className="rc-bullet" style={{ background: role.color }} />
-                  {h}
+                <motion.li key={i} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>
+                  <FiArrowRight style={{ color: role.color, flexShrink: 0, marginTop: 2 }} />
+                  <span>{h}</span>
                 </motion.li>
               ))}
             </ul>
-            <div className="rc-links">
+            <div className="lc-links">
               {role.links.map((l, i) => (
-                <motion.a
-                  key={i}
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rc-link"
-                  style={{ borderColor: role.color + '44', color: role.color }}
-                  whileHover={{ scale: 1.04, borderColor: role.color }}
-                >
+                <a key={i} href={l.href} target="_blank" rel="noreferrer" className="lc-link" style={{ color: role.color, borderColor: role.color + '44' }}>
                   {l.icon} {l.label}
-                </motion.a>
+                </a>
               ))}
             </div>
           </motion.div>
@@ -250,49 +192,39 @@ function VolCard({ v, index }) {
   const [open, setOpen] = useState(false);
   return (
     <motion.div
-      className="vol-card"
-      initial={{ opacity: 0, y: 30 }}
+      className="vc-card"
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
+      transition={{ delay: index * 0.08 }}
     >
-      <div className="vol-accent" style={{ background: v.color }} />
-      <div className="vol-header" onClick={() => setOpen(!open)}>
-        <div className="vol-left">
-          <div className="vol-emoji" style={{ background: v.color + '18', border: `1px solid ${v.color}33` }}>
-            {v.icon}
-          </div>
-          <div>
-            <h4>{v.title}</h4>
-            <p className="vol-org" style={{ color: v.color }}>{v.org}</p>
-            <p className="rc-period mono"><FiCalendar /> {v.period}</p>
-          </div>
+      <div className="vc-stripe" style={{ background: v.color }} />
+      <div className="vc-top" onClick={() => setOpen(!open)}>
+        <div className="vc-icon" style={{ background: v.color + '15', border: `1px solid ${v.color}30` }}>{v.icon}</div>
+        <div className="vc-info">
+          <h4 className="vc-title">{v.title}</h4>
+          <p className="vc-org" style={{ color: v.color }}>{v.org}</p>
+          <span className="vc-period mono"><FiCalendar /> {v.period}</span>
         </div>
-        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.3 }}>
-          <FiChevronDown className="rc-chevron" />
+        <motion.div className="lc-chevron" animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
+          <FiChevronDown />
         </motion.div>
       </div>
       <AnimatePresence>
         {open && (
-          <motion.div
-            className="vol-body"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <p className="rc-desc">{v.desc}</p>
-            <ul className="rc-highlights">
-              {v.highlights.map((h, i) => (
-                <motion.li key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }}>
-                  <span className="rc-bullet" style={{ background: v.color }} />
-                  {h}
-                </motion.li>
-              ))}
-            </ul>
-            {v.link && (
-              v.link.href
-                ? <a href={v.link.href} target="_blank" rel="noreferrer" className="rc-link" style={{ borderColor: v.color + '44', color: v.color }}><FiGlobe /> {v.link.label}</a>
-                : <span className="vol-coming-soon"><FiGlobe /> {v.link.label}</span>
+          <motion.div className="lc-body" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.28 }}>
+            {v.desc && <p className="lc-desc">{v.desc}</p>}
+            {v.highlights.length > 0 && (
+              <ul className="lc-list">
+                {v.highlights.map((h, i) => (
+                  <motion.li key={i} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }}>
+                    <FiArrowRight style={{ color: v.color, flexShrink: 0, marginTop: 2 }} />
+                    <span>{h}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            )}
+            {v.link && !v.link.href && (
+              <span className="vc-soon">🔗 {v.link.label}</span>
             )}
           </motion.div>
         )}
@@ -309,52 +241,56 @@ export default function Leadership() {
         <motion.h1 className="section-title" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           Leadership & <span className="gradient-text">Activities</span>
         </motion.h1>
-
         <motion.p className="leadership-intro" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
           From participant to leader — my college journey shaped me into someone who builds, organizes, and inspires.
         </motion.p>
 
-        {/* Role Cards */}
-        <div className="roles-list">
+        {/* Club Roles */}
+        <div className="lc-list-wrap">
           {roles.map((r, i) => <RoleCard key={r.id} role={r} index={i} />)}
         </div>
 
-        {/* College Journey Timeline */}
-        <motion.div className="journey-section" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-          <h2 className="journey-title">College Journey <span className="gradient-text">Timeline</span></h2>
-          <div className="journey-track">
-            {collegeJourney.map((j, i) => (
-              <motion.div key={i} className="journey-step" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 + i * 0.1 }}>
-                <div className="journey-year mono">{j.year}</div>
-                <div className="journey-dot" />
-                <p className="journey-text">{j.text}</p>
+        {/* Journey */}
+        <motion.div className="journey-section" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+          <h2 className="section-sub-title">College Journey <span className="gradient-text">Timeline</span></h2>
+          <div className="journey-wrap">
+            {journey.map((j, i) => (
+              <motion.div key={i} className="journey-item" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 + i * 0.1 }}>
+                <div className="journey-left">
+                  <div className="journey-dot" style={{ background: j.color, boxShadow: `0 0 8px ${j.color}88` }} />
+                  {i < journey.length - 1 && <div className="journey-line" />}
+                </div>
+                <div className="journey-content">
+                  <div className="journey-year-row">
+                    <span className="journey-year mono" style={{ color: j.color }}>{j.year}</span>
+                    <span className="journey-label">{j.label}</span>
+                  </div>
+                  <p className="journey-text">{j.text}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        {/* Volunteering Section */}
+        {/* Volunteering */}
         <motion.div className="vol-section" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
-          <div className="vol-section-header">
+          <div className="vol-header-row">
             <div className="vol-title-wrap">
               <FiHeart className="vol-heart" />
               <div>
-                <h2 className="vol-title">Volunteering</h2>
+                <h2 className="section-sub-title" style={{ marginBottom: 2 }}>Volunteering</h2>
                 <p className="vol-subtitle mono">// giving_back()</p>
               </div>
             </div>
-            <div className="maatram-badge">
-              <span className="maatram-dot" />
-              <span>Maatram Foundation — 2022 to Present</span>
-            </div>
+            <span className="maatram-badge"><span className="maatram-dot" /> Maatram Foundation · 2022–Present</span>
           </div>
 
-                  <div className="maatram-intro-card">
+          <div className="maatram-intro-card">
             <span className="mi-logo">🤝</span>
             <div>
               <h3>Maatram Foundation</h3>
-              <p>Maatram leads transformation in the lives of deserving underprivileged students by providing quality sponsored education, continuous skill development, world class exposure to solving real life challenges, getting them placement ready and by imbibing societal skills — grooming them to become the finest in society.</p>
-              <a href="https://www.maatramfoundation.com/" target="_blank" rel="noreferrer" className="maatram-website-link">Visit maatramfoundation.com →</a>
+              <p>Maatram leads transformation in the lives of deserving underprivileged students by providing quality sponsored education, skill development, and placement readiness — grooming them to become the finest in society.</p>
+              <a href="https://www.maatramfoundation.com/" target="_blank" rel="noreferrer" className="maatram-link">Visit maatramfoundation.com →</a>
             </div>
           </div>
 
@@ -365,21 +301,14 @@ export default function Leadership() {
 
         {/* Certificate */}
         <motion.div className="cert-banner" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1 }}>
-          <div className="cert-banner-left">
+          <div className="cert-left">
             <span className="cert-icon">🏅</span>
             <div>
               <h4>Star of Excellence Certificate</h4>
               <p className="mono">Proof of conducted events & participation across college journey</p>
             </div>
           </div>
-          <motion.a
-            href="/star-of-excellence.pdf"
-            target="_blank"
-            rel="noreferrer"
-            className="cert-download-btn"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-          >
+          <motion.a href="/star-of-excellence.pdf" target="_blank" rel="noreferrer" className="cert-btn" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <FiDownload /> View Certificate
           </motion.a>
         </motion.div>
