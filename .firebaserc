@@ -5,9 +5,8 @@
   "targets": {
     "overall-project-b04ff": {
       "hosting": {
-        "portfolio": [
-          "sasikumar-k"
-        ]
+        "prod": ["sasikumar-k"],
+        "dev": ["sasikumar-k-dev"]
       }
     }
   }
