@@ -50,13 +50,9 @@ jobs:
           du -sh dist/
 
       - name: 🚀 Deploy to Firebase Prod
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: overall-project-b04ff
-          target: prod
-          channelId: live
+        run: npx firebase-tools@latest deploy --only hosting:prod --project overall-project-b04ff
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: 🏷️ Create Version Tag & Release
         env:

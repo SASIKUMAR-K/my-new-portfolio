@@ -53,13 +53,9 @@ jobs:
           du -sh dist/
 
       - name: 🚀 Deploy to Firebase Dev
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          projectId: overall-project-b04ff
-          target: dev
-          channelId: live
+        run: npx firebase-tools@latest deploy --only hosting:dev --project overall-project-b04ff
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: 🏷️ Create Pre-release Tag & Release
         env:
