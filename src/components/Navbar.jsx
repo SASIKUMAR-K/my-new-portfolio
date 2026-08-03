@@ -27,7 +27,8 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  useEffect(() => setOpen(false), [location]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setOpen(false); }, [location]);
 
   return (
     <>
