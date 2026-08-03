@@ -1,0 +1,154 @@
+name: 🔧 Dev - Build & Deploy (PR)
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+jobs:
+  dev-deploy:
+    name: Build & Deploy to Dev
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+      url: https://sasikumar-k-dev.web.app
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 📦 Install dependencies
+        run: |
+          echo "Installing dependencies..."
+          npm ci
+          echo "✅ Dependencies installed successfully"
+
+      - name: 🔍 Lint check
+        run: |
+          echo "Running lint..."
+          npm run lint
+          echo "✅ Lint passed"
+
+      - name: 🏗️ Build
+        run: |
+          echo "Building project..."
+          npm run build
+          echo "✅ Build completed"
+          echo "Build output size:"
+          du -sh dist/
+
+      - name: 🚀 Deploy to Firebase Dev
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: overall-project-b04ff
+          target: dev
+          channelId: live
+
+      - name: 🏷️ Create Pre-release Tag & Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          SHA_SHORT=$(git rev-parse --short HEAD)
+          VERSION="v0.0.0-pr${PR_NUMBER}-${SHA_SHORT}"
+
+          echo "Creating pre-release tag: $VERSION"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git tag "$VERSION" || echo "Tag already exists, skipping"
+          git push origin "$VERSION" || echo "Tag push skipped"
+
+          gh release create "$VERSION" \
+            --title "Pre-release: PR #${PR_NUMBER}" \
+            --notes "## 🔧 Dev Pre-release
+
+          **PR:** #${PR_NUMBER} - ${{ github.event.pull_request.title }}
+          **Branch:** \`${{ github.head_ref }}\`
+          **Commit:** \`${SHA_SHORT}\`
+          **Author:** @${{ github.actor }}
+
+          **🌐 Dev Preview:** https://sasikumar-k-dev.web.app
+
+          > This is an automated pre-release from a pull request. Not for production use." \
+            --prerelease \
+            --target ${{ github.sha }} || echo "Release already exists, skipping"
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: 💬 Post PR Comment with Job Details
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const sha = context.payload.pull_request.head.sha;
+            const shortSha = sha.substring(0, 7);
+            const prNumber = context.payload.pull_request.number;
+            const version = `v0.0.0-pr${prNumber}-${shortSha}`;
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            const body = `## 🔧 Dev Deployment Report
+
+            | Detail | Value |
+            |--------|-------|
+            | **Status** | ✅ Success |
+            | **Environment** | Dev |
+            | **Pre-release Version** | \`${version}\` |
+            | **Commit** | \`${shortSha}\` |
+            | **Branch** | \`${{ github.head_ref }}\` |
+            | **Author** | @${{ github.actor }} |
+            | **Workflow Run** | [View Details](${runUrl}) |
+
+            ### ✅ Steps Completed
+            - 📥 Code checkout
+            - 🟢 Node.js 20 setup
+            - 📦 Dependencies installed (\`npm ci\`)
+            - 🔍 Lint check passed
+            - 🏗️ Build successful
+            - 🚀 Deployed to Firebase Dev
+            - 🏷️ Pre-release \`${version}\` created
+
+            ### 🌐 Preview
+            **Dev URL:** https://sasikumar-k-dev.web.app
+
+            ---
+            *Triggered by PR #${prNumber} • [View Workflow Run](${runUrl})*`;
+
+            // Find existing bot comment and update, or create new
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber
+            });
+
+            const botComment = comments.data.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Dev Deployment Report')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body
+              });
+            }

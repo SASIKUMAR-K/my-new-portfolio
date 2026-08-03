@@ -1,0 +1,92 @@
+name: 🚀 Prod - Build & Deploy (Merge)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prod-deploy:
+    name: Build & Deploy to Prod
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+      url: https://sasikumar-k.web.app
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 📦 Install dependencies
+        run: |
+          echo "Installing dependencies..."
+          npm ci
+          echo "✅ Dependencies installed"
+
+      - name: 🔍 Lint check
+        run: |
+          echo "Running lint..."
+          npm run lint
+          echo "✅ Lint passed"
+
+      - name: 🏗️ Build
+        run: |
+          echo "Building project..."
+          npm run build
+          echo "✅ Build completed"
+          du -sh dist/
+
+      - name: 🚀 Deploy to Firebase Prod
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          projectId: overall-project-b04ff
+          target: prod
+          channelId: live
+
+      - name: 🏷️ Create Version Tag & Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Get latest tag, bump patch version
+          LATEST=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+          if [ -z "$LATEST" ]; then
+            VERSION="v1.0.0"
+          else
+            MAJOR=$(echo $LATEST | cut -d. -f1 | tr -d v)
+            MINOR=$(echo $LATEST | cut -d. -f2)
+            PATCH=$(echo $LATEST | cut -d. -f3)
+            VERSION="v${MAJOR}.${MINOR}.$((PATCH + 1))"
+          fi
+
+          SHA_SHORT=$(git rev-parse --short HEAD)
+          echo "Creating release: $VERSION"
+
+          git tag "$VERSION"
+          git push origin "$VERSION"
+
+          gh release create "$VERSION" \
+            --title "Release $VERSION" \
+            --notes "## 🚀 Production Release $VERSION
+
+          **Commit:** \`${SHA_SHORT}\`
+          **Deployed by:** @${{ github.actor }}
+          **Date:** $(date -u '+%Y-%m-%d %H:%M UTC')
+
+          **🌐 Live URL:** https://sasikumar-k.web.app" \
+            --latest \
+            --target ${{ github.sha }}
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
