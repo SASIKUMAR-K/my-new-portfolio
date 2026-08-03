@@ -6,6 +6,12 @@ on:
       - main
     types: [opened, synchronize, reopened]
 
+permissions:
+  contents: write
+  pull-requests: write
+  checks: write
+  statuses: write
+
 jobs:
   dev-deploy:
     name: Build & Deploy to Dev
